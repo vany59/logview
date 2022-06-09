@@ -6,9 +6,8 @@ import { LoggerService } from './logger.service';
   imports: [
     WinstonModule.forRootAsync({
       useClass: LoggerService,
-    })
-    
+    }),
   ],
-  providers: [LoggerService]
+  providers: [LoggerService],
 })
 export class LoggerModule {}

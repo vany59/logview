@@ -3,7 +3,7 @@ version: "3.8"
 services:
   elasticsearch:
     container_name: es-container
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.2
     environment:
       - xpack.security.enabled=false
       - "discovery.type=single-node"
@@ -14,7 +14,7 @@ services:
   
   kibana:
     container_name: kb-container
-    image: docker.elastic.co/kibana/kibana:7.11.0
+    image: docker.elastic.co/kibana/kibana:8.2.2
     environment:
       - ELASTICSEARCH_HOSTS=http://es-container:9200
     networks:
@@ -25,7 +25,7 @@ services:
       - 5601:5601
 
   filebeat:
-    image: docker.elastic.co/beats/filebeat:8.2.2
+    image: docker.elastic.co/beats/filebeat:8.2.2-arm64
     user: root
     container_name: filebeat
     configs:
@@ -36,6 +36,8 @@ services:
       - kibana
     volumes:
       - ./filebeat/data:/usr/share/filebeat/data
+      - ./filebeat/logs:/usr/share/logs
+      - /var/run/docker.sock:/var/run/docker.sock
       - /var/log/audit/:/var/log/audit/:ro
     environment:
       - ELASTICSEARCH_HOSTS=http://es-container:9200
@@ -49,7 +51,7 @@ services:
 
 configs:
   fb_config:
-    file: $PWD/filebeat.yml
+    file: ./filebeat.yml
 
 networks:
   es-net:
