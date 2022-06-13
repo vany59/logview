@@ -7,10 +7,14 @@ import winston, { LoggerOptions } from 'winston';
 export class LoggerService implements WinstonModuleOptionsFactory {
   createWinstonModuleOptions(): LoggerOptions {
     return {
-      format: ecsFormat(),
+      format: ecsFormat({ apmIntegration: false }),
       transports: [
-        new winston.transports.Console()
-      ]
-    }
+        new winston.transports.Console(),
+        new winston.transports.File({
+          //path to log file
+          filename: 'logs/log.json',
+        }),
+      ],
+    };
   }
 }

@@ -5,12 +5,12 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly logger: Logger
+    private readonly logger: Logger,
   ) {}
 
   @Get()
   getHello(): string {
-    this.logger.log('121')
+    this.logger.log('docker1');
     return this.appService.getHello();
   }
 }

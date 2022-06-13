@@ -36,16 +36,13 @@ services:
       - kibana
     volumes:
       - ./filebeat/data:/usr/share/filebeat/data
-      - ./filebeat/logs:/usr/share/logs
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /var/log/audit/:/var/log/audit/:ro
-    environment:
-      - ELASTICSEARCH_HOSTS=http://es-container:9200
-      - KIBANA_HOST=https://kb-container:5601
-    # disable strict permission checks
+      - ./logs:/usr/share/filebeat/logs
+    # environment:
+    #   - ELASTICSEARCH_HOSTS=http://es-container:9200
+    #   - KIBANA_HOST=https://kb-container:5601
     networks:
       - es-net
-    command: ["--strict.perms=false"]
+    command: ["-e","--strict.perms=false"]
     deploy:
       mode: global
 
